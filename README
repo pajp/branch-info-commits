@@ -1,0 +1,7 @@
+What's this?
+------------
+
+This is a utility to track information about which branch the author
+was working on when creating each commit. This can make it easier to
+figure out the context of a particular commit without tracing it to
+the nearest merge/branch point.
