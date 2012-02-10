@@ -14,7 +14,6 @@ puts "Current branch: #{currentbranch}"
 headref=".git/refs/heads/#{currentbranch}"
 
 f = File.open(headref, 'r')
-
 head = f.read(40)
 f.close
 
@@ -23,7 +22,6 @@ print "Reading commit #{head}\n"
 commitpath = ".git/objects/#{head[0,2]}/#{head[2,38]}"
 
 f = File.open(commitpath, 'r')
-
 objectdata = Zlib::Inflate.inflate(f.read)
 f.close
 
