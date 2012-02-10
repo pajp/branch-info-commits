@@ -5,3 +5,13 @@ This is a utility to track information about which branch the author
 was working on when creating each commit. This can make it easier to
 figure out the context of a particular commit without tracing it to
 the nearest merge/branch point.
+
+The script "add-hdr-to-head.rb" can be used as a post-commit hook that
+will modify the head commit object to contain information about the
+current branch. The result is saved as a new commit object and the
+branch head is changed to point to the new object.
+
+Information about the working branch can be retrieved from a
+particular commit object by issuing the following command:
+
+ git cat-file -p 1cb7f76b5 | grep ^x-working-branch
