@@ -6,15 +6,16 @@ require 'fileutils'
 
 ourheader = "x-working-branch"
 
-
-currentbranch=`git branch|grep ^*|sed -e 's/^\* //'`[0..-2]
+f = File.open(".git/HEAD")
+currentbranch = f.readline.split(": ", 2)[1].split("/")[-1].chomp
+f.close
 
 puts "Current branch: #{currentbranch}"
 
 headref=".git/refs/heads/#{currentbranch}"
 
 f = File.open(headref, 'r')
-head = f.read(40)
+head = f.read.chomp
 f.close
 
 print "Reading commit #{head}\n"
