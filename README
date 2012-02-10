@@ -20,3 +20,16 @@ Information about the working branch can be retrieved from a
 particular commit object by issuing the following command:
 
  git cat-file -p 1cb7f76b5 | grep ^x-working-branch
+
+
+Why?
+----
+
+In a typical git workflow, you can see the relationship of all
+commits, but context information, such as in which branch a particular
+commit was introduced, is sometimes hard to find. You may have to
+trace back (or forward) to the nearest branch or merge to see if a
+commit came from a branch called "experimental" or
+"maintenance". Adding this metadata to the commit object preserves
+this information without cluttering the commit log message.
+
