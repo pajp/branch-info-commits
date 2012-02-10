@@ -15,7 +15,7 @@ puts "Current branch: #{currentbranch}"
 headref=".git/refs/heads/#{currentbranch}"
 
 f = File.open(headref, 'r')
-head = f.read(40)
+head = f.read.chomp
 f.close
 
 print "Reading commit #{head}\n"
