@@ -6,8 +6,9 @@ require 'fileutils'
 
 ourheader = "x-working-branch"
 
-
-currentbranch=`git branch|grep ^*|sed -e 's/^\* //'`[0..-2]
+f = File.open(".git/HEAD")
+currentbranch = f.readline.split(": ", 2)[1].split("/")[-1].chomp
+f.close
 
 puts "Current branch: #{currentbranch}"
 
