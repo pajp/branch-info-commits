@@ -17,6 +17,7 @@ else
     currentbranch = "detached: #{row}"
     head = row
 end
+
 f.close
 
 puts "Current branch: #{currentbranch}"
