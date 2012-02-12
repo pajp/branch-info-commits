@@ -22,7 +22,7 @@ particular commit object by issuing the following command:
  git cat-file -p 1cb7f76b5 | grep ^x-working-branch
 
 
-A version of gitk able to show this informaiton is available here:
+A version of gitk able to show this information is available here:
   https://github.com/pajp/git/tree/x-working-branch/gitk-git
 
 
