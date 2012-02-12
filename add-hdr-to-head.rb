@@ -11,7 +11,7 @@ head = ""
 
 f = File.open(".git/HEAD")
 row = f.readline.chomp
-if row.match("/^ref: /")
+if row.match(/^ref: /)
     currentbranch = f.readline.split(": ", 2)[1].split("/")[-1]
 else
     currentbranch = "detached: #{row}"
