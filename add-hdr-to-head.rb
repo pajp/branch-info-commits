@@ -6,6 +6,7 @@ require 'fileutils'
 
 ourheader = "x-working-branch"
 
+# figure out current working branch
 f = File.open(".git/HEAD")
 currentbranch = f.readline.split(": ", 2)[1].split("/")[-1].chomp
 f.close
@@ -29,14 +30,17 @@ f.close
 objectparts = objectdata.split("\000", 2)
 commitdata = objectparts[1].split("\n\n", 2);
 
-
 commitdatahdrs = commitdata[0].split("\n")
 match = false
 i=0
+
+# parse commit metadata, modify our header if it's found,
+# otherwise add it
 commitdatahdrs.each { |hdr|
     if hdr.match(/^#{ourheader}/) 
         value = hdr.split(" ", 2)[1]
         if value.eql?(currentbranch)
+            # no reason to create a new commit if the current one already contains the information
             print "Head commit already contains #{ourheader}: #{currentbranch}\nNot changing anything.\n"
             exit 0
         end
@@ -57,9 +61,9 @@ objectparts[1] = commitdata.join("\n\n")
 objectparts[0] = "commit #{objectparts[1].size}"
 objectdata = objectparts.join("\000")
 
+# create a new commit object and write it to disk
 newcommithash = Digest::SHA1.hexdigest(objectdata)
 newcommitpath = ".git/objects/#{newcommithash[0,2]}/#{newcommithash[2,38]}"
-
 FileUtils.mkdir_p(File.dirname(newcommitpath))
 f = File.open(newcommitpath, 'w')
 f.write Zlib::Deflate.deflate(objectdata)
