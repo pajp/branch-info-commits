@@ -7,17 +7,27 @@ require 'fileutils'
 ourheader = "x-working-branch"
 
 # figure out current working branch
+head = ""
+
 f = File.open(".git/HEAD")
-currentbranch = f.readline.split(": ", 2)[1].split("/")[-1].chomp
+row = f.readline.chomp
+if row.match("/^ref: /")
+    currentbranch = f.readline.split(": ", 2)[1].split("/")[-1]
+else
+    currentbranch = "detached: #{row}"
+    head = row
+end
 f.close
 
 puts "Current branch: #{currentbranch}"
 
-headref=".git/refs/heads/#{currentbranch}"
+if head.eql?("")
+    headref=".git/refs/heads/#{currentbranch}"
 
-f = File.open(headref, 'r')
-head = f.read.chomp
-f.close
+    f = File.open(headref, 'r')
+    head = f.read.chomp
+    f.close
+end
 
 print "Reading commit #{head}\n"
 
@@ -69,10 +79,18 @@ f = File.open(newcommitpath, 'w')
 f.write Zlib::Deflate.deflate(objectdata)
 f.close
 
+
+if headref
+    reffile = headref
+    print "New head of branch #{currentbranch} is #{newcommithash}\n"
+else
+    reffile = ".git/HEAD"
+    print "New detached HEAD is #{newcommithash}\n"
+end
+
 # change head to point to our new commit
-f = File.open(headref, 'w')
+f = File.open(reffile, 'w')
 f.write(newcommithash)
 f.close
 
-print "New head of branch #{currentbranch} is #{newcommithash}\n"
 
