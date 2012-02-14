@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# The majority of this code was written on tram number 8 in Helsinki
+
 require 'digest/sha1'
 require 'zlib'
 require 'fileutils'
