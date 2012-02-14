@@ -20,7 +20,7 @@ branch head is changed to point to the new object.
 Information about the working branch can be retrieved from a
 particular commit object by issuing the following command:
 
- git cat-file -p 1cb7f76b5 | grep ^x-working-branch
+    git cat-file -p 1cb7f76b5 | grep ^x-working-branch
 
 
 A version of gitk able to show this information is available here:
