@@ -17,6 +17,9 @@ will modify the head commit object to contain information about the
 current branch. The result is saved as a new commit object and the
 branch head is changed to point to the new object.
 
+Currently, it doesn't work well with rebased commits (the branch
+information gets lost in the rebase process).
+
 Information about the working branch can be retrieved from a
 particular commit object by issuing the following command:
 
