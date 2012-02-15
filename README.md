@@ -26,6 +26,11 @@ particular commit object by issuing the following command:
 A version of gitk able to show this information is available here:
   https://github.com/pajp/git/tree/x-working-branch/gitk-git
 
+You can see how it looks here:
+
+![gitk screenshot](https://github.com/downloads/pajp/branch-info-commits/gitk-branches.png)
+
+
 
 Why?
 ----
