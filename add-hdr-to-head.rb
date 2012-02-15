@@ -36,16 +36,12 @@ end
 
 print "Reading commit #{head}\n"
 
-commitpath = ".git/objects/#{head[0,2]}/#{head[2,38]}"
-
-f = File.open(commitpath, 'r')
-objectdata = Zlib::Inflate.inflate(f.read)
+f = IO.popen("git cat-file commit #{head}", "r");
+commitdata = f.read.split("\n\n", 2);
 f.close
 
-objectparts = objectdata.split("\000", 2)
-commitdata = objectparts[1].split("\n\n", 2);
-
 commitdatahdrs = commitdata[0].split("\n")
+
 match = false
 i=0
 
@@ -72,16 +68,11 @@ if !match
     commitdata[0] += "\n#{ourheader} #{currentbranch}"
 end
 
-objectparts[1] = commitdata.join("\n\n")
-objectparts[0] = "commit #{objectparts[1].size}"
-objectdata = objectparts.join("\000")
-
 # create a new commit object and write it to disk
-newcommithash = Digest::SHA1.hexdigest(objectdata)
-newcommitpath = ".git/objects/#{newcommithash[0,2]}/#{newcommithash[2,38]}"
-FileUtils.mkdir_p(File.dirname(newcommitpath))
-f = File.open(newcommitpath, 'w')
-f.write Zlib::Deflate.deflate(objectdata)
+f = IO.popen("git hash-object -w --stdin -t commit", "w+");
+f.puts commitdata.join("\n\n")
+f.close_write
+newcommithash = f.readline.chomp
 f.close
 
 
