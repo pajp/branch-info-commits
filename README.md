@@ -30,7 +30,9 @@ You can see how it looks here:
 
 ![gitk screenshot](https://github.com/downloads/pajp/branch-info-commits/gitk-branches.png)
 
-
+As you can see, it's easy to see the commits created in the "redshirt"
+branch without tracing upwards to the merge commit even though the
+branch has been deleted.
 
 Why?
 ----
