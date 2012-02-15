@@ -75,11 +75,10 @@ objectparts[0] = "commit #{objectparts[1].size}"
 objectdata = objectparts.join("\000")
 
 # create a new commit object and write it to disk
-newcommithash = Digest::SHA1.hexdigest(objectdata)
-newcommitpath = ".git/objects/#{newcommithash[0,2]}/#{newcommithash[2,38]}"
-FileUtils.mkdir_p(File.dirname(newcommitpath))
-f = File.open(newcommitpath, 'w')
-f.write Zlib::Deflate.deflate(objectdata)
+f = IO.popen("git hash-object -w --stdin -t commit", "w+");
+f.puts objectparts[1]
+f.close_write
+newcommithash = f.readline.chomp
 f.close
 
 
