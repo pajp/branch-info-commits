@@ -15,14 +15,16 @@ f = File.open(".git/HEAD")
 row = f.readline.chomp
 if row.match(/^ref: /)
     currentbranch = row.split(": ", 2)[1].split("/")[-1]
+    puts "Current branch: #{currentbranch}"
 else
+    # currently working in detached HEAD
     currentbranch = "detached: #{row}"
     head = row
+    puts "Not currently on any branch (detached HEAD: #{head})"
 end
 
 f.close
 
-puts "Current branch: #{currentbranch}"
 
 if head.eql?("")
     headref=".git/refs/heads/#{currentbranch}"
